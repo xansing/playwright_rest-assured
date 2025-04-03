@@ -8,7 +8,9 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import com.mike.gorest.Tags;
 import com.mike.gorest.APIs.UserApi;
+import org.junit.jupiter.api.Tag;
 
 import io.restassured.response.Response;
 
@@ -16,6 +18,8 @@ public class UserApiTest {
     UserApi userApi = new UserApi();
 
     //Objetivo del test: recibir un listado de los users validando el codigo de respuesta y que devuelva al menos uno
+    @Tag(Tags.API)
+    @Tag(Tags.SMOKE)
     @Test
     public void getUsers_shouldReturnListOfUsers(){
         userApi.getUsers().then().statusCode(200).body("size()", greaterThan(0));
@@ -23,6 +27,8 @@ public class UserApiTest {
 
 
     //Objetivo del test: Crear un usuario mike + numero aleatorio@test.com y validar codigo de respuesta, un id, email el mismo que se mando y nombre igual al que se mando
+    @Tag(Tags.API)
+    @Tag(Tags.SMOKE)
     @Test
     public void createUsers_shouldCreateAndReturnUserData(){
     
@@ -34,6 +40,8 @@ public class UserApiTest {
     }
 
     //Objetivo del test: Crear un usuario y despues con su ID consultar ese ID y validar el codigo de respuesta, ID, email y nombre
+    @Tag(Tags.API)
+    @Tag(Tags.REGRESSION)
     @Test
     public void getUserById_shouldReturnUserDetails(){
         //use System.currentTimeMillis() en vez de UUID.randomUUID() para asegurar que sea imposible colision de datos existentes

@@ -2,8 +2,9 @@ const {test,expect} = require('@playwright/test');
 const { HomePage } = require('../pages/HomPage');
 const { ProductPAge } = require('../pages/ProductPage');
 const {CartPage} = require('../pages/CartPage');
+const {TAGS} = require('../utils/tags')
 
-test.only('Caso de Uso 1 - Buscar Heladera Samsung y agregar al carrito', async ({ page }) => {
+test(`${TAGS.UI} ${TAGS.SMOKE} - Caso de Uso 1 - Buscar Heladera Samsung y agregar al carrito`, async ({ page }) => {
     const home = new HomePage(page);
     const producto = new ProductPAge(page)
     const carrito = new CartPage(page);
@@ -15,7 +16,7 @@ test.only('Caso de Uso 1 - Buscar Heladera Samsung y agregar al carrito', async 
     await carrito.validarProductoVisible();
 });
 
-test('Caso de Uso 2 - Buscar Heladera Samsung, agregarlo al carrito y despues quitarlo', async ({ page }) => {
+test(`${TAGS.UI} ${TAGS.REGRESSION} - Caso de Uso 2 - Buscar Heladera Samsung, agregarlo al carrito y despues quitarlo`, async ({ page }) => {
     const home = new HomePage(page);
     const producto = new ProductPAge(page)
     const carrito = new CartPage(page);
