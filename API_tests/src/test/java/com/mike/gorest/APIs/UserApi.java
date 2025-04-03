@@ -33,6 +33,7 @@ public class UserApi {
     }
 
 
+    //Crea un usuario con los datos name,email,gender,status
     public Response createUSer(String name, String email, String gender, String status){
         RestAssured.baseURI = BASE_URL;
         System.out.println("TOKEN ACTUAL: " + getToken());
@@ -45,6 +46,7 @@ public class UserApi {
         return given().header("Authorization", getToken()).contentType("application/json").body(requestBody).when().post("/users");
     }
 
+    //retorna el contenido de un usuario buscado por userID [retorna: userID,name,email,gender,status]
     public Response getUserById(int userId){
         System.out.println("TOKEN ACTUAL: " + getToken());
         RestAssured.baseURI = BASE_URL;

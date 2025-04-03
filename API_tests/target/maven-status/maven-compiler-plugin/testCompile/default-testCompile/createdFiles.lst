@@ -1,3 +1,4 @@
+com\mike\gorest\utils\TestDataReader.class
+com\mike\gorest\Tags.class
 com\mike\gorest\APIs\UserApi.class
-com\mike\gorest\GoRestApiTest.class
 com\mike\gorest\Tests\UserApiTest.class

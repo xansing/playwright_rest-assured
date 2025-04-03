@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.notNullValue;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import com.mike.gorest.Tags;
 import com.mike.gorest.APIs.UserApi;
 import org.junit.jupiter.api.Tag;
+import com.mike.gorest.utils.TestDataReader;
 
 import io.restassured.response.Response;
 
@@ -31,12 +33,16 @@ public class UserApiTest {
     @Tag(Tags.SMOKE)
     @Test
     public void createUsers_shouldCreateAndReturnUserData(){
-    
-    //use System.currentTimeMillis() en vez de UUID.randomUUID() para asegurar que sea imposible colision de datos existentes
+        Map<String, String> userData = TestDataReader.getUserData("mikeTest");
+        String name = userData.get("name");
+        String gender = userData.get("gender");
+        String status = userData.get("status");
         String email = "mike" + UUID.randomUUID() + "@test.com";
+        //UUID.randomUUID() para asegurar que sea muy poco probable colision de datos existentes
+        
 
-        userApi.createUSer("Mike Test", email, "male", "active").then().statusCode(201)
-        .body("id", notNullValue()).body("email", equalTo(email)).body("name", equalTo("Mike Test"));
+        userApi.createUSer(name, email, gender, status).then().statusCode(201)
+        .body("id", notNullValue()).body("email", equalTo(email)).body("name", equalTo(name));
     }
 
     //Objetivo del test: Crear un usuario y despues con su ID consultar ese ID y validar el codigo de respuesta, ID, email y nombre
@@ -44,17 +50,21 @@ public class UserApiTest {
     @Tag(Tags.REGRESSION)
     @Test
     public void getUserById_shouldReturnUserDetails(){
-        //use System.currentTimeMillis() en vez de UUID.randomUUID() para asegurar que sea imposible colision de datos existentes
+        Map<String, String> userData = TestDataReader.getUserData("mikeCreation");
+        String name = userData.get("name");
+        String gender = userData.get("gender");
+        String status = userData.get("status");
         String email = "mike" + UUID.randomUUID() + "@test.com";
+        //UUID.randomUUID() para asegurar que sea muy poco probable colision de datos existentes
 
         //Crear el usuario y retener el ID
-        Response creaResponse = userApi.createUSer("Mike Creation", email, "male", "active");
+        Response creaResponse = userApi.createUSer(name, email, gender, status);
         creaResponse.then().statusCode(201);
         int userId= creaResponse.jsonPath().getInt("id");
         
         //utilizando el ID valido que devuelve los valores que espero
         userApi.getUserById(userId).then().statusCode(200).body("id", equalTo(userId))
-        .body("email", equalTo(email)).body("name", equalTo("Mike Creation"));
+        .body("email", equalTo(email)).body("name", equalTo(name));
     }
 }
 
